@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2018", // Ensure this is set to ES2015 or higher
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
