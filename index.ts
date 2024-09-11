@@ -65,7 +65,7 @@ class PandorasWallSource {
     #middle(a: any): any {
         class pandoraGlobal {
             GLOBAL_STRING: string;
-            #expressSymbol: symbol;
+            #expressSymbol: Symbol;
             #expressLock: number;
             #expressApp: any;
             #Protect: any;
@@ -82,7 +82,7 @@ class PandorasWallSource {
                 return this.GLOBAL_STRING;
             }
 
-            getGlobalSymbol(): symbol {
+            getGlobalSymbol(): Symbol {
                 return this.#expressSymbol;
             }
 

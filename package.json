@@ -1,6 +1,6 @@
 {
   "name": "pandoraswall",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple Starter NodeJS module to protect Runtime Code and Memory From Injections",
   "main": "index.js",
   "scripts": {
