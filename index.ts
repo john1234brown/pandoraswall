@@ -11,6 +11,8 @@ Which I did send my godbox code which contained it to the model earlier which ma
 
 Author: Johnathan Edward Brown Of The Original CommonJS script Code Which Is refered to as the PandorasWallSource
 */
+import { Application as ExpressApp } from 'express';
+import Application from 'koa';
 
 const crypto = require('node:crypto');
 
@@ -53,13 +55,17 @@ class PandorasWallSource {
         }
         return new ThePublicBox(middle);
     }
-
-    setExpressApp(app: any){
-        return this.#middleBox.setExpress(app, this.#middleBox);
+    //Three way pass key to set Express app!
+    setExpressApp(app: ExpressApp | Application, password: string, symbol: symbol){
+        if (password === this.getExpressString()){ if (symbol === Symbol(this.getExpressString())){
+            const passKey = crypto.randomBytes(2048).toString('base64') + crypto.randomBytes(4096).toString('hex') + crypto.randomBytes(2048).toString('base64');
+            this.#middleBox.setpassKey(passKey);
+            return this.#middleBox.setExpress(app, this.#middleBox, Symbol(passKey));
+        }}
     }
 
-    getExpressSymbol(){
-        return this.#middleBox.getGlobalSymbol();
+    getExpressString(){
+        return this.#middleBox.getGlobalString();
     }
 
     #middle(a: any): any {
@@ -67,15 +73,25 @@ class PandorasWallSource {
             GLOBAL_STRING: string;
             #expressSymbol: Symbol;
             #expressLock: number;
-            #expressApp: any;
+            #expressApp: ExpressApp | Application | undefined;
+            #passKey: string | undefined;
+            #passLock: boolean;
             #Protect: any;
 
             constructor(a: any) {
                 const crypto = require('node:crypto');
                 this.GLOBAL_STRING = crypto.randomBytes(2048).toString('base64') + crypto.randomBytes(4096).toString('hex') + crypto.randomBytes(2048).toString('base64');
                 this.#expressSymbol = Symbol(this.GLOBAL_STRING);
+                this.#passLock = false;
                 this.#expressLock = 0;
                 this.#Protect = a;
+            }
+
+            setpassKey(key: string){
+                if (!this.#passLock){
+                this.#passKey = key;
+                this.#passLock = true;
+                }
             }
 
             getGlobalString(): string {
@@ -86,13 +102,10 @@ class PandorasWallSource {
                 return this.#expressSymbol;
             }
 
-            setExpress(app: any, box: any): boolean {
-                function isExpressApp(obj: any, box: any): boolean {
-                    const isExpressAppSymbol = box.getGlobalSymbol();
-                    return obj && obj[isExpressAppSymbol] === true;
-                }
+            setExpress(app: ExpressApp | Application, box: any, passKey: symbol): boolean {
                 console.log('Set express app called!');
-                if (this.#expressLock === 0 && isExpressApp(app, box)) {
+                //See very simple Symbol Lock Mechanism YA YA!!!
+                if (this.#expressLock === 0 && Symbol(this.#passKey) == passKey) {
                     this.#expressApp = app;
                     this.#expressLock = 1;
                     this.#expressProtect(app, box);
@@ -188,7 +201,7 @@ class PandorasWallSource {
                 this.#ASTInterval = setInterval(() => {
                     this.#currentASTHash = this.#exampleReverseTraverse(box);
                     if (this.#rootASTHash === this.#currentASTHash) {
-                        console.log('NO changes detected in AST!');
+//                        console.log('NO changes detected in AST!');
                         this.verified2 = 1;
                     } else {
                         console.log('WARNING WARNING WARNING YOU HAVE BEEN WARNED YOUR AST HAS DETECTED MODIFICATIONS TO THE RUNETIMES CODE!');
@@ -298,7 +311,7 @@ class PandorasWallSource {
                     return crypto.createHash('sha256').update(input).digest('hex');
                 }
 
-                function captureMemoryState(): string {
+                function captureMemoryState(): string { //Uses a Max Depth Hopefully if your process doesnt exceed the depth then its secured but if it exceeds it then your in danger zone most times it shouldnt!!
                     function hashObject(obj: any, visited = new Set(), depth = 0, maxDepth = 100000000): string {
                         if (obj === null || obj === undefined) return generateHash('null');
 
@@ -342,7 +355,7 @@ class PandorasWallSource {
                     box.#MemoryInterval = setInterval(() => {
                         box.#currentMemoryHash = captureMemoryState();
                         if (box.#rootMemoryHash === box.#currentMemoryHash && box.#booleanLock.lock) {
-                            console.log('No Change Detected in Process Memory From Original Root Hash!');
+//                            console.log('No Change Detected in Process Memory From Original Root Hash!');
                             box.verified = 1;
                         }
 
