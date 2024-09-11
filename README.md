@@ -1,7 +1,7 @@
 # Pandoras Wall
-**Author: Johnathan Edward Brown https://github.com/Vampeyer**
-**Help From: Jake Thompson https://github.com/Vampeyer** <- Taught me, Helped me study and learn Proper standard defense measures for protecting the public! <- Donate to him to show appreciation for this project! I could careless about donations! I just want to see the world be in a more secured state of mind along with developers!
-**Credits Too: https://js2ts.com/**
+- **Author: Johnathan Edward Brown https://github.com/Vampeyer**
+- **Help From: Jake Thompson https://github.com/Vampeyer** <- Taught me, Helped me study and learn Proper standard defense measures for protecting the public! <- Donate to him to show appreciation for this project! I could careless about donations! I just want to see the world be in a more secured state of mind along with developers!
+- **Credits Too: https://js2ts.com/**
 
 - When you want to keep the bad stuff out of your express or koa servers! we got you covered!
 - Simple Runtime Detection Middleware which can easily be hooked up to any existing NodeJS Application
